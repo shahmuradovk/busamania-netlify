@@ -770,33 +770,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // ── Charter ──
-    document.getElementById('add-charter').addEventListener('click', () => CharterManager.addRule());
+    document.getElementById('add-charter')?.addEventListener('click', function () { CharterManager.addRule(); });
 
     // ── Hero ──
-    document.getElementById('save-hero').addEventListener('click', () => HeroManager.save());
+    document.getElementById('save-hero')?.addEventListener('click', function () { HeroManager.save(); });
 
     // ── Settings ──
-    document.getElementById('change-pw').addEventListener('click', () => SettingsManager.changePassword());
-    document.getElementById('reset-data').addEventListener('click', () => SettingsManager.resetData());
+    document.getElementById('change-pw')?.addEventListener('click', function () { SettingsManager.changePassword(); });
+    document.getElementById('reset-data')?.addEventListener('click', function () { SettingsManager.resetData(); });
 
     // ── Deploy ──
     DeployManager.initUI();
-    const saveDeployBtn = document.getElementById('save-deploy-settings');
-    if (saveDeployBtn) saveDeployBtn.addEventListener('click', () => DeployManager.saveSettings());
-    const manualDeployBtn = document.getElementById('manual-deploy-btn');
-    if (manualDeployBtn) manualDeployBtn.addEventListener('click', () => DeployManager.deploy());
-    const topbarDeploy = document.getElementById('manual-deploy');
-    if (topbarDeploy) topbarDeploy.addEventListener('click', () => DeployManager.deploy());
 
     // ── Users ──
-    document.getElementById('add-user').addEventListener('click', () => UsersManager.addUser());
-
+    document.getElementById('add-user')?.addEventListener('click', function () { UsersManager.addUser(); });
 
     // ── Close modals on backdrop click ──
-    document.getElementById('edit-member-modal').addEventListener('click', function (e) {
+    var editModal = document.getElementById('edit-member-modal');
+    if (editModal) editModal.addEventListener('click', function (e) {
         if (e.target === this) this.classList.remove('open');
     });
-    document.getElementById('confirm-modal').addEventListener('click', function (e) {
+    var confirmModal = document.getElementById('confirm-modal');
+    if (confirmModal) confirmModal.addEventListener('click', function (e) {
         if (e.target === this) this.classList.remove('open');
     });
 });
