@@ -55,31 +55,6 @@
             background: linear-gradient(to bottom, var(--accent-gold), rgba(212, 175, 55, 0.3));
         }
 
-        .conn-h-wrap {
-            display: flex;
-            align-items: flex-start;
-            gap: 0;
-            position: relative;
-        }
-
-        .conn-h-wrap::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 2px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--accent-gold), rgba(212, 175, 55, 0.3));
-            transform: translateX(-50%);
-        }
-
-        .conn-h-line {
-            position: absolute;
-            top: 40px;
-            height: 2px;
-            background: rgba(212, 175, 55, 0.4);
-        }
-
         /* ── MEMBER CARD ── */
         .struct-card {
             background: var(--card-bg);
@@ -115,7 +90,6 @@
             opacity: 1;
         }
 
-        /* President card — bigger */
         .struct-card.president {
             width: 240px;
             border-color: rgba(212, 175, 55, 0.5);
@@ -126,7 +100,6 @@
             opacity: 0.6;
         }
 
-        /* Photo circle */
         .struct-photo {
             width: 100px;
             height: 100px;
@@ -157,7 +130,6 @@
             object-fit: cover;
         }
 
-        /* Photo placeholder icon */
         .struct-photo .photo-placeholder {
             font-size: 2.5rem;
             opacity: 0.25;
@@ -167,7 +139,6 @@
             font-size: 3rem;
         }
 
-        /* Role badge */
         .struct-role {
             display: inline-block;
             font-size: 0.58rem;
@@ -181,7 +152,6 @@
             margin-bottom: 0.7rem;
         }
 
-        /* Name fields */
         .struct-name {
             font-size: 1rem;
             font-weight: 700;
@@ -198,7 +168,6 @@
             margin-top: 2px;
         }
 
-        /* ── SECTION LABELS ── */
         .section-label {
             font-size: 0.65rem;
             letter-spacing: 5px;
@@ -208,7 +177,6 @@
             padding: 1.5rem 0 0.5rem;
         }
 
-        /* ── TIER LAYOUTS ── */
         .tier-single {
             display: flex;
             justify-content: center;
@@ -229,7 +197,6 @@
             margin-top: 0.5rem;
         }
 
-        /* ── DIVIDER ── */
         .tier-divider {
             width: 100%;
             height: 1px;
@@ -237,7 +204,13 @@
             margin: 2rem 0;
         }
 
-        /* ── RESPONSIVE ── */
+        .empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding: 3rem;
+        }
+
         @media (max-width: 768px) {
             .tier-members {
                 grid-template-columns: repeat(2, 1fr);
@@ -303,157 +276,16 @@
 
     <!-- Structure Hierarchy -->
     <div class="struct-wrapper">
-
-        <p class="section-label" data-i18n="structure.label.leadership">Leadership</p>
-        <div class="tier-single fade-in">
-            <div class="struct-card president">
-                <div class="struct-photo">
-                    <!-- Şəkil əlavə etmək üçün: <img src="assets/members/president.jpg" alt="President"> -->
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.president">President</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-        </div>
-
-        <!-- CONNECTOR -->
-        <div class="conn-v"></div>
-
-        <!-- VICE PRESIDENT -->
-        <div class="tier-single fade-in">
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.vp">Vice President</span>
-                <p class="struct-name" data-i18n="vp.name">Kənan</p>
-                <p class="struct-surname" data-i18n="vp.surname">Şahmuradov</p>
-            </div>
-        </div>
-
-        <!-- CONNECTOR -->
-        <div class="conn-v"></div>
-
-        <!-- SECRETARY · MECHANIC · TREASURY -->
-        <div class="tier-triple fade-in">
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.secretary">Secretary</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.mechanic">Mechanic</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.treasury">Treasurer</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-        </div>
-
+        <p class="section-label">Leadership</p>
+        <div class="tier-single fade-in" id="tier-president"></div>
+        <div class="conn-v" id="conn-vp" style="display:none;"></div>
+        <div class="tier-single fade-in" id="tier-vp"></div>
+        <div class="conn-v" id="conn-officers" style="display:none;"></div>
+        <div class="tier-triple fade-in" id="tier-officers"></div>
         <div class="tier-divider"></div>
-
-        <!-- MEMBERS -->
-        <p class="section-label" data-i18n="structure.label.members">Members</p>
-        <div class="tier-members fade-in">
-
-            <!-- Üzv 1 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 2 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 3 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 4 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 5 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 6 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 7 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-            <!-- Üzv 8 -->
-            <div class="struct-card">
-                <div class="struct-photo">
-                    <span class="photo-placeholder">👤</span>
-                </div>
-                <span class="struct-role" data-i18n="structure.role.member">Member</span>
-                <p class="struct-name" data-i18n="structure.placeholder.name">Name</p>
-                <p class="struct-surname" data-i18n="structure.placeholder.sur">Surname</p>
-            </div>
-
-        </div><!-- /.tier-members -->
-
-    </div><!-- /.struct-wrapper -->
+        <p class="section-label">Members</p>
+        <div class="tier-members fade-in" id="tier-members"></div>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-inner">
@@ -464,6 +296,75 @@
 
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        function createCard(member, isPresident) {
+            var cls = isPresident ? 'struct-card president' : 'struct-card';
+            var photoHTML = member.image
+                ? '<img src="' + member.image + '" alt="' + (member.name || '') + '">'
+                : '<span class="photo-placeholder">👤</span>';
+
+            var roleEmoji = {
+                'President': '🏆', 'Vitse-President': '🥈', 'Katib': '📋',
+                'Mexanik': '🔧', 'Xəzinədar': '💰', 'Üzv': '🏍️'
+            };
+            var emoji = roleEmoji[member.role] || '🏍️';
+            var nameParts = (member.name || '').split(' ');
+            var firstName = nameParts[0] || '';
+            var surname = nameParts.slice(1).join(' ') || '';
+
+            return '<div class="' + cls + '">' +
+                '<div class="struct-photo">' + photoHTML + '</div>' +
+                '<span class="struct-role">' + emoji + ' ' + (member.role || 'Üzv') + '</span>' +
+                '<p class="struct-name">' + firstName + '</p>' +
+                (surname ? '<p class="struct-surname">' + surname + '</p>' : '') +
+                '</div>';
+        }
+
+        async function loadStructure() {
+            var members = [];
+            try {
+                var res = await fetch('data/site-data.json');
+                if (res.ok) {
+                    var data = await res.json();
+                    members = data.members || [];
+                }
+            } catch (e) { }
+
+            if (!members.length) {
+                try { members = JSON.parse(localStorage.getItem('busamania_members')) || []; } catch (e) { }
+            }
+
+            if (!members.length) {
+                document.getElementById('tier-president').innerHTML = '<p class="empty-msg">Admin paneldən üzv əlavə edin</p>';
+                return;
+            }
+
+            var president = members.filter(function (m) { return m.role === 'President'; });
+            var vp = members.filter(function (m) { return m.role === 'Vitse-President'; });
+            var officers = members.filter(function (m) { return m.role === 'Katib' || m.role === 'Mexanik' || m.role === 'Xəzinədar'; });
+            var regular = members.filter(function (m) { return m.role === 'Üzv' || !m.role; });
+
+            if (president.length) {
+                document.getElementById('tier-president').innerHTML = createCard(president[0], true);
+            }
+
+            if (vp.length) {
+                document.getElementById('tier-vp').innerHTML = createCard(vp[0], false);
+                document.getElementById('conn-vp').style.display = '';
+            }
+
+            if (officers.length) {
+                document.getElementById('tier-officers').innerHTML = officers.map(function (m) { return createCard(m, false); }).join('');
+                document.getElementById('conn-officers').style.display = '';
+            }
+
+            if (regular.length) {
+                document.getElementById('tier-members').innerHTML = regular.map(function (m) { return createCard(m, false); }).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStructure);
+    </script>
 </body>
 
 </html>

@@ -80,7 +80,7 @@ const UI = {
         if (panel) panel.classList.add('active');
         if (nav) nav.classList.add('active');
         const titles = {
-            overview: 'Ümumi Baxış', about: 'Haqqımızda', members: 'Üzvlər',
+            overview: 'Ümumi Baxış', about: 'Haqqımızda', members: 'Club Structure',
             gallery: 'Qalereya', charter: 'Nizamnamə', hero: 'Hero Statistika', settings: 'Parametrlər'
         };
         document.getElementById('topbar-title').textContent = titles[name] || name;
