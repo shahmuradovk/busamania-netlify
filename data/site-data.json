@@ -9,10 +9,10 @@
       "img": ""
     },
     {
-      "name": "Rauf A.",
-      "bike": "Suzuki Hayabusa Gen 2",
+      "name": "Kənan Şahmuradov",
       "role": "Vitse-President",
-      "bio": "Yol Kapitanı",
+      "bike": "Suzuki Hayabusa Gen 3",
+      "bio": "BigKen",
       "img": ""
     },
     {
@@ -40,5 +40,5 @@
   "gallery": null,
   "charter": null,
   "heroStats": null,
-  "_lastUpdated": "2026-03-03T14:22:16.049Z"
+  "_lastUpdated": "2026-03-03T14:59:43.822Z"
 }
