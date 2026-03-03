@@ -634,25 +634,10 @@ const SettingsManager = {
 };
 
 /* ══════════════════════════════════════════════════════════════
-   DEPLOY MANAGER — GitHub API → Netlify Auto-Deploy
+   DEPLOY MANAGER — Netlify Serverless Function-a POST
 ══════════════════════════════════════════════════════════════ */
 const DeployManager = {
-    CONFIG_KEY: 'bm_deploy_config',
     _timer: null,
-
-    getConfig() {
-        return JSON.parse(localStorage.getItem(this.CONFIG_KEY)) || {
-            githubToken: '',
-            repoOwner: '',
-            repoName: '',
-            branch: 'main',
-            autoDeploy: true
-        };
-    },
-
-    saveConfig(config) {
-        localStorage.setItem(this.CONFIG_KEY, JSON.stringify(config));
-    },
 
     collectSiteData() {
         return {
@@ -666,106 +651,44 @@ const DeployManager = {
     },
 
     autoDeploy() {
-        const config = this.getConfig();
-        if (!config.autoDeploy || !config.githubToken || !config.repoOwner || !config.repoName) return;
-
-        // Debounce — wait 2 seconds after last change before deploying
         clearTimeout(this._timer);
-        this._timer = setTimeout(() => this.deploy(), 2000);
+        this._timer = setTimeout(function () { DeployManager.deploy(); }, 2000);
     },
 
     async deploy() {
-        const config = this.getConfig();
-        if (!config.githubToken || !config.repoOwner || !config.repoName) {
-            UI.toast('Deploy ayarları tamamlanmayıb! Parametrlər → Deploy bölməsinə keçin.', 'error');
-            return;
-        }
-
-        const statusEl = document.getElementById('deploy-status');
-        const statusDot = document.getElementById('deploy-dot');
+        var statusEl = document.getElementById('deploy-status');
+        var statusDot = document.getElementById('deploy-dot');
         if (statusEl) statusEl.textContent = 'Deploying...';
         if (statusDot) { statusDot.style.background = 'var(--warning)'; statusDot.style.boxShadow = '0 0 8px var(--warning)'; }
 
         try {
-            const siteData = this.collectSiteData();
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(siteData, null, 2))));
-            const filePath = 'data/site-data.json';
-            const apiBase = `https://api.github.com/repos/${config.repoOwner}/${config.repoName}/contents/${filePath}`;
-
-            // Get current file SHA (if exists)
-            let sha = null;
-            try {
-                const getRes = await fetch(`${apiBase}?ref=${config.branch}`, {
-                    headers: { 'Authorization': `token ${config.githubToken}` }
-                });
-                if (getRes.ok) {
-                    const data = await getRes.json();
-                    sha = data.sha;
-                }
-            } catch { /* file may not exist yet */ }
-
-            // Commit the file
-            const body = {
-                message: `Admin panel update — ${new Date().toLocaleString('az-AZ')}`,
-                content: content,
-                branch: config.branch
-            };
-            if (sha) body.sha = sha;
-
-            const putRes = await fetch(apiBase, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${config.githubToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
+            var siteData = this.collectSiteData();
+            var res = await fetch('/.netlify/functions/deploy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(siteData)
             });
 
-            if (putRes.ok) {
-                UI.toast('✅ Deploy uğurla göndərildi! Netlify avtomatik yenilənəcək.', 'success');
+            var result = await res.json();
+
+            if (result.success) {
+                UI.toast('✅ Deploy uğurla göndərildi! Netlify yenilənəcək.', 'success');
                 if (statusEl) statusEl.textContent = 'Deploy uğurlu';
                 if (statusDot) { statusDot.style.background = 'var(--success)'; statusDot.style.boxShadow = '0 0 8px var(--success)'; }
-                // Update last deploy time
-                const timeEl = document.getElementById('last-deploy-time');
+                var timeEl = document.getElementById('last-deploy-time');
                 if (timeEl) timeEl.textContent = new Date().toLocaleString('az-AZ');
             } else {
-                const err = await putRes.json();
-                throw new Error(err.message || 'GitHub API xətası');
+                throw new Error(result.error || 'Deploy xətası');
             }
         } catch (e) {
-            UI.toast(`❌ Deploy xətası: ${e.message}`, 'error');
+            UI.toast('❌ Deploy xətası: ' + e.message, 'error');
             if (statusEl) statusEl.textContent = 'Deploy uğursuz';
             if (statusDot) { statusDot.style.background = 'var(--error)'; statusDot.style.boxShadow = '0 0 8px var(--error)'; }
         }
     },
 
-    initUI() {
-        const config = this.getConfig();
-        const fields = {
-            'deploy-token': 'githubToken',
-            'deploy-owner': 'repoOwner',
-            'deploy-repo': 'repoName',
-            'deploy-branch': 'branch'
-        };
-        Object.entries(fields).forEach(([id, key]) => {
-            const el = document.getElementById(id);
-            if (el) el.value = config[key] || '';
-        });
-        const autoCheck = document.getElementById('deploy-auto');
-        if (autoCheck) autoCheck.checked = config.autoDeploy !== false;
-    },
-
-    saveSettings() {
-        const config = {
-            githubToken: (document.getElementById('deploy-token')?.value || '').trim(),
-            repoOwner: (document.getElementById('deploy-owner')?.value || '').trim(),
-            repoName: (document.getElementById('deploy-repo')?.value || '').trim(),
-            branch: (document.getElementById('deploy-branch')?.value || 'main').trim(),
-            autoDeploy: document.getElementById('deploy-auto')?.checked !== false
-        };
-        this.saveConfig(config);
-        UI.toast('Deploy ayarları yadda saxlandı!');
-    }
+    initUI() { /* Deploy ayarları artıq serverdədir */ },
+    saveSettings() { UI.toast('Ayarlar Netlify environment variable-lardan oxunur.'); }
 };
 
 /* ══════════════════════════════════════════════════════════════
