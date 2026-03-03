@@ -656,10 +656,10 @@ const DeployManager = {
 
     collectSiteData() {
         return {
-            about: JSON.parse(localStorage.getItem('busamania_about')) || AboutManager.DEFAULTS,
-            members: JSON.parse(localStorage.getItem('busamania_members')) || MembersManager.DEFAULTS,
-            gallery: JSON.parse(localStorage.getItem('busamania_gallery')) || GalleryManager.DEFAULTS,
-            charter: JSON.parse(localStorage.getItem('busamania_rules')) || CharterManager.DEFAULTS,
+            about: JSON.parse(localStorage.getItem('busamania_about')) || null,
+            members: JSON.parse(localStorage.getItem('busamania_members')) || null,
+            gallery: JSON.parse(localStorage.getItem('busamania_gallery')) || null,
+            charter: JSON.parse(localStorage.getItem('busamania_rules')) || null,
             heroStats: JSON.parse(localStorage.getItem('busamania_hero_stats')) || null,
             _lastUpdated: new Date().toISOString()
         };
