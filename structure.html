@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 
 <head>
@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Club Structure | Busamania RC Azerbaijan</title>
     <meta name="description"
-        content="Busamania RC Azerbaijan Klub Strukturu â€” President, Vitse President, Katib, Mexanik, XÉ™zinÉ™dar vÉ™ ÃœzvlÉ™r.">
+        content="Busamania RC Azerbaijan Klub Strukturu — President, Vitse President, Katib, Mexanik, Xəzinədar və Üzvlər.">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* â”€â”€ PAGE HERO â”€â”€ */
+        /* ── PAGE HERO ── */
         .struct-hero {
             background: linear-gradient(135deg, #0a0800 0%, #000 60%);
             border-bottom: 2px solid var(--accent-gold);
@@ -37,7 +37,7 @@
             color: var(--text-muted);
         }
 
-        /* â”€â”€ HIERARCHY WRAPPER â”€â”€ */
+        /* ── HIERARCHY WRAPPER ── */
         .struct-wrapper {
             max-width: 1100px;
             margin: 0 auto;
@@ -48,14 +48,14 @@
             gap: 0;
         }
 
-        /* â”€â”€ CONNECTOR LINES â”€â”€ */
+        /* ── CONNECTOR LINES ── */
         .conn-v {
             width: 2px;
             height: 40px;
             background: linear-gradient(to bottom, var(--accent-gold), rgba(212, 175, 55, 0.3));
         }
 
-        /* â”€â”€ MEMBER CARD â”€â”€ */
+        /* ── MEMBER CARD ── */
         .struct-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -271,7 +271,7 @@
     <!-- Page Hero -->
     <div class="struct-hero fade-in">
         <h1 data-i18n="structure.h1">Club Structure</h1>
-        <p data-i18n="structure.sub">Busamania RC Azerbaijan â€” Leadership &amp; Members</p>
+        <p data-i18n="structure.sub">Busamania RC Azerbaijan — Leadership &amp; Members</p>
     </div>
 
     <!-- Structure Hierarchy -->
@@ -295,7 +295,7 @@
                 <a href="https://www.instagram.com/busamania_rc/" target="_blank" rel="noopener" title="Instagram">&#x1F4F7;</a>
                 <a href="https://www.youtube.com/@BusamaniaRC" target="_blank" rel="noopener" title="YouTube">&#x25B6;</a>
             </div>
-            <p class="footer-copy">Â© 2026 Busamania RC Azerbaijan. BÃ¼tÃ¼n hÃ¼quqlar qorunur.</p>
+            <p class="footer-copy">© 2026 Busamania RC Azerbaijan. Bütün hüquqlar qorunur.</p>
         </div>
     </footer>
 
@@ -306,20 +306,20 @@
             var cls = isPresident ? 'struct-card president' : 'struct-card';
             var photoHTML = member.image
                 ? '<img src="' + member.image + '" alt="' + (member.name || '') + '">'
-                : '<span class="photo-placeholder">ðŸ‘¤</span>';
+                : '<span class="photo-placeholder">👤</span>';
 
             var roleEmoji = {
-                'President': 'ðŸ†', 'Vitse-President': 'ðŸ¥ˆ', 'Katib': 'ðŸ“‹',
-                'Mexanik': 'ðŸ”§', 'XÉ™zinÉ™dar': 'ðŸ’°', 'Ãœzv': 'ðŸï¸'
+                'President': '🏆', 'Vitse-President': '🥈', 'Katib': '📋',
+                'Mexanik': '🔧', 'Xəzinədar': '💰', 'Üzv': '🏍️'
             };
-            var emoji = roleEmoji[member.role] || 'ðŸï¸';
+            var emoji = roleEmoji[member.role] || '🏍️';
             var nameParts = (member.name || '').split(' ');
             var firstName = nameParts[0] || '';
             var surname = nameParts.slice(1).join(' ') || '';
 
             return '<div class="' + cls + '">' +
                 '<div class="struct-photo">' + photoHTML + '</div>' +
-                '<span class="struct-role">' + emoji + ' ' + (member.role || 'Ãœzv') + '</span>' +
+                '<span class="struct-role">' + emoji + ' ' + (member.role || 'Üzv') + '</span>' +
                 '<p class="struct-name">' + firstName + '</p>' +
                 (surname ? '<p class="struct-surname">' + surname + '</p>' : '') +
                 '</div>';
@@ -340,14 +340,14 @@
             }
 
             if (!members.length) {
-                document.getElementById('tier-president').innerHTML = '<p class="empty-msg">Admin paneldÉ™n Ã¼zv É™lavÉ™ edin</p>';
+                document.getElementById('tier-president').innerHTML = '<p class="empty-msg">Admin paneldən üzv əlavə edin</p>';
                 return;
             }
 
             var president = members.filter(function (m) { return m.role === 'President'; });
             var vp = members.filter(function (m) { return m.role === 'Vitse-President'; });
-            var officers = members.filter(function (m) { return m.role === 'Katib' || m.role === 'Mexanik' || m.role === 'XÉ™zinÉ™dar'; });
-            var regular = members.filter(function (m) { return m.role === 'Ãœzv' || !m.role; });
+            var officers = members.filter(function (m) { return m.role === 'Katib' || m.role === 'Mexanik' || m.role === 'Xəzinədar'; });
+            var regular = members.filter(function (m) { return m.role === 'Üzv' || !m.role; });
 
             if (president.length) {
                 document.getElementById('tier-president').innerHTML = createCard(president[0], true);
