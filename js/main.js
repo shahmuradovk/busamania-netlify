@@ -464,3 +464,50 @@ function loadHeroStats() {
     });
 })();
 
+
+/* ============================================
+   HAMBURGER MENU TOGGLE
+   ============================================ */
+(function initHamburger() {
+    // Wait for navbar to load
+    const check = setInterval(() => {
+        const btn = document.getElementById('hamburger-btn');
+        const nav = document.querySelector('.header-nav');
+        if (!btn || !nav) return;
+        clearInterval(check);
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            btn.classList.toggle('active');
+            nav.classList.toggle('open');
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Close menu when clicking a nav link
+        nav.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                btn.classList.remove('active');
+                nav.classList.remove('open');
+                document.body.classList.remove('menu-open');
+            });
+        });
+
+        // Close menu on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('open')) {
+                btn.classList.remove('active');
+                nav.classList.remove('open');
+                document.body.classList.remove('menu-open');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+                btn.classList.remove('active');
+                nav.classList.remove('open');
+                document.body.classList.remove('menu-open');
+            }
+        });
+    }, 100);
+})();
