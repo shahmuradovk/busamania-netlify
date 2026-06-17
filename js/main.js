@@ -373,141 +373,18 @@ function loadHeroStats() {
 }
 
 
-/* ============================================================
-   DESIGN ENHANCEMENTS — Added by Antigravity
-   1) Navbar scroll shrink
-   2) Staggered animation delays
-   3) Custom cursor (desktop)
-   4) Generations timeline dots
-   ============================================================ */
 
 /* Navbar Scroll Shrink */
-(function initNavbarShrink() {
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const header = document.querySelector('.site-header');
-                if (header) {
-                    if (window.scrollY > 60) {
-                        header.classList.add('scrolled');
-                    } else {
-                        header.classList.remove('scrolled');
-                    }
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-})();
+(function(){var t=false;window.addEventListener('scroll',function(){if(!t){requestAnimationFrame(function(){var h=document.querySelector('.site-header');if(h){if(window.scrollY>60)h.classList.add('scrolled');else h.classList.remove('scrolled');}t=false;});t=true;}});})();
 
-/* Staggered Animation Delays */
-(function initStaggeredAnimations() {
-    document.querySelectorAll('.features-grid, .grid-2, .grid-3, .tier-members, .tier-triple, .gallery-grid').forEach(grid => {
-        const children = grid.querySelectorAll('.fade-in, .fade-up, .card, .feature-card');
-        children.forEach((child, i) => {
-            child.style.setProperty('--stagger', i);
-            child.style.transitionDelay = (i * 0.12) + 's';
-        });
-    });
-})();
+/* Staggered Animations */
+(function(){document.querySelectorAll('.features-grid,.grid-2,.grid-3,.tier-members,.gallery-grid').forEach(function(g){g.querySelectorAll('.fade-in,.fade-up,.card,.feature-card').forEach(function(c,i){c.style.transitionDelay=(i*0.12)+'s';});});})();
 
-/* Custom Cursor (Desktop Only) */
-(function initCustomCursor() {
-    if (window.matchMedia('(pointer: fine)').matches === false) return;
+/* Custom Cursor */
+(function(){if(!window.matchMedia('(pointer:fine)').matches)return;var d=document.createElement('div');d.className='cursor-dot';var r=document.createElement('div');r.className='cursor-ring';document.body.appendChild(d);document.body.appendChild(r);var mx=0,my=0,rx=0,ry=0;document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});function anim(){rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(anim);}anim();document.querySelectorAll('a,button,.btn,.feature-card,.lang-option,.accordion-header').forEach(function(el){el.addEventListener('mouseenter',function(){d.classList.add('hovering');r.classList.add('hovering');});el.addEventListener('mouseleave',function(){d.classList.remove('hovering');r.classList.remove('hovering');});});})();
 
-    const dot = document.createElement('div');
-    dot.className = 'cursor-dot';
-    const ring = document.createElement('div');
-    ring.className = 'cursor-ring';
-    document.body.appendChild(dot);
-    document.body.appendChild(ring);
+/* Timeline dots */
+(function(){if(document.body.dataset.page!=='generations')return;var s=document.querySelectorAll('main.container>section.fade-in');s.forEach(function(sec,i){if(i<s.length-1){var l=document.createElement('div');l.className='gen-timeline-line';sec.after(l);}var dot=document.createElement('div');dot.className='gen-timeline-dot';sec.prepend(dot);});})();
 
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + 'px';
-        dot.style.top = my + 'px';
-    });
-
-    function animateRing() {
-        rx += (mx - rx) * 0.15;
-        ry += (my - ry) * 0.15;
-        ring.style.left = rx + 'px';
-        ring.style.top = ry + 'px';
-        requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button, .btn, .feature-card, .lang-option, .accordion-header, .generation-card, .struct-card').forEach(el => {
-        el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
-        el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
-    });
-})();
-
-/* Timeline dots for Generations page */
-(function initTimelineDots() {
-    if (document.body.dataset.page !== 'generations') return;
-    const sections = document.querySelectorAll('main.container > section.fade-in');
-    sections.forEach((sec, i) => {
-        if (i < sections.length - 1) {
-            const line = document.createElement('div');
-            line.className = 'gen-timeline-line';
-            sec.after(line);
-        }
-        const dot = document.createElement('div');
-        dot.className = 'gen-timeline-dot';
-        sec.prepend(dot);
-    });
-})();
-
-
-/* ============================================
-   HAMBURGER MENU TOGGLE
-   ============================================ */
-(function initHamburger() {
-    // Wait for navbar to load
-    const check = setInterval(() => {
-        const btn = document.getElementById('hamburger-btn');
-        const nav = document.querySelector('.header-nav');
-        if (!btn || !nav) return;
-        clearInterval(check);
-
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            btn.classList.toggle('active');
-            nav.classList.toggle('open');
-            document.body.classList.toggle('menu-open');
-        });
-
-        // Close menu when clicking a nav link
-        nav.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                btn.classList.remove('active');
-                nav.classList.remove('open');
-                document.body.classList.remove('menu-open');
-            });
-        });
-
-        // Close menu on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && nav.classList.contains('open')) {
-                btn.classList.remove('active');
-                nav.classList.remove('open');
-                document.body.classList.remove('menu-open');
-            }
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
-                btn.classList.remove('active');
-                nav.classList.remove('open');
-                document.body.classList.remove('menu-open');
-            }
-        });
-    }, 100);
-})();
+/* Hamburger Menu */
+(function(){var c=setInterval(function(){var b=document.getElementById('hamburger-btn');var n=document.querySelector('.header-nav');if(!b||!n)return;clearInterval(c);b.addEventListener('click',function(e){e.stopPropagation();b.classList.toggle('active');n.classList.toggle('open');document.body.classList.toggle('menu-open');});n.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){b.classList.remove('active');n.classList.remove('open');document.body.classList.remove('menu-open');});});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('open')){b.classList.remove('active');n.classList.remove('open');document.body.classList.remove('menu-open');}});},100);})();
