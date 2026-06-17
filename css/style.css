@@ -2429,3 +2429,63 @@ section {
         min-height: 44px;
     }
 }
+
+/* ============================================
+   SPLASH SCREEN CENTERING FIX
+   All devices: desktop, Android, iOS
+   ============================================ */
+
+/* Override: ensure splash is perfectly centered on ALL devices */
+#splash {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 1.5rem !important;
+}
+
+/* Splash hint positioned below logo, not pushing it up */
+.splash-hint {
+    position: absolute !important;
+    bottom: 10vh !important;
+    bottom: 10dvh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+}
+
+/* Page transition should NOT affect splash */
+#splash {
+    animation: splashFadeIn 0.8s ease forwards !important;
+    transform: none !important;
+}
+
+/* Prevent pageSlideIn from affecting splash */
+body.page-transition #splash {
+    animation: splashFadeIn 0.8s ease forwards !important;
+    transform: none !important;
+}
+
+/* Android Chrome address bar fix */
+@supports (height: 100dvh) {
+    #splash {
+        height: 100dvh !important;
+    }
+}
+
+/* Samsung Internet, Xiaomi, Huawei browsers */
+@media screen and (max-width: 768px) {
+    #splash {
+        min-height: -webkit-fill-available;
+    }
+    .splash-ring {
+        margin: 0 auto !important;
+    }
+}
