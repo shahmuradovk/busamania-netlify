@@ -372,3 +372,95 @@ function loadHeroStats() {
     });
 }
 
+
+/* ============================================================
+   DESIGN ENHANCEMENTS — Added by Antigravity
+   1) Navbar scroll shrink
+   2) Staggered animation delays
+   3) Custom cursor (desktop)
+   4) Generations timeline dots
+   ============================================================ */
+
+/* Navbar Scroll Shrink */
+(function initNavbarShrink() {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const header = document.querySelector('.site-header');
+                if (header) {
+                    if (window.scrollY > 60) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+})();
+
+/* Staggered Animation Delays */
+(function initStaggeredAnimations() {
+    document.querySelectorAll('.features-grid, .grid-2, .grid-3, .tier-members, .tier-triple, .gallery-grid').forEach(grid => {
+        const children = grid.querySelectorAll('.fade-in, .fade-up, .card, .feature-card');
+        children.forEach((child, i) => {
+            child.style.setProperty('--stagger', i);
+            child.style.transitionDelay = (i * 0.12) + 's';
+        });
+    });
+})();
+
+/* Custom Cursor (Desktop Only) */
+(function initCustomCursor() {
+    if (window.matchMedia('(pointer: fine)').matches === false) return;
+
+    const dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top = my + 'px';
+    });
+
+    function animateRing() {
+        rx += (mx - rx) * 0.15;
+        ry += (my - ry) * 0.15;
+        ring.style.left = rx + 'px';
+        ring.style.top = ry + 'px';
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .btn, .feature-card, .lang-option, .accordion-header, .generation-card, .struct-card').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('hovering'); ring.classList.add('hovering'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    });
+})();
+
+/* Timeline dots for Generations page */
+(function initTimelineDots() {
+    if (document.body.dataset.page !== 'generations') return;
+    const sections = document.querySelectorAll('main.container > section.fade-in');
+    sections.forEach((sec, i) => {
+        if (i < sections.length - 1) {
+            const line = document.createElement('div');
+            line.className = 'gen-timeline-line';
+            sec.after(line);
+        }
+        const dot = document.createElement('div');
+        dot.className = 'gen-timeline-dot';
+        sec.prepend(dot);
+    });
+})();
+
